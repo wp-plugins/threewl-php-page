@@ -12,8 +12,10 @@ This plugin helps you integrate your wordpress site in the [3waylinks.net](http:
 
 [3waylinks.net](http://www.seo-traffic-guide.de/recommends/3waylinks "3waylinks.net") by Jon Leger 
 is an excellent link building system - there is no easier way to build "one way" backlinks - only that up to now 
-getting it running with wordpress could sometimes be a little bit difficult… This plugin makes the process of putting 
+getting it running with wordpress could sometimes be a little bit difficult... This plugin makes the process of putting 
 a new wordpress site in the 3Waylinks system a lot easier.
+
+Please note that you have to be a member of [3waylinks.net](http://www.seo-traffic-guide.de/recommends/3waylinks "3waylinks.net") in order to be able to use it!
 
 == Installation ==
 
