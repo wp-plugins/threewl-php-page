@@ -3,7 +3,7 @@
 Plugin Name: threewl-php-page
 Plugin URI: http://www.seo-traffic-guide.de/3WL-PHP-Page-Plugin/
 Description: Create a page that contains the <a href="http://www.seo-traffic-guide.de/recommends/3waylinks">3waylinks.net</a> outgoing links for the 3waylinks linking system by Jon Leger <a href="options-general.php?page=threewl-php-page.php">Options configuration panel</a> This plugin is based on the Privacy Page Plugin by Eric Giguere (http://www.synclastic.com/plugins/privacy-policy/)
-Version: 0.3
+Version: 0.4
 Author: Michael Busch
 Author URI: http://www.seo-traffic-guide.de
 */
@@ -23,7 +23,7 @@ Copyright 2008 by Michael Busch. You are free to use this plugin on
 any WordPress blog. No warranty is provided -- not even that this plugin does what it is intended for
 */
 
-$threewlphppage = '0.3';
+$threewlphppage = '0.4';
 
 $pp_default_threewlid = 'your 3WL site ID';
 $pp_default_title = 'Resources';
@@ -70,9 +70,9 @@ function threewl_php_page_options_page(){
 
         echo '<div id="message" class="updated fade"><p><strong>';
 
-	$title = stripslashes( (string) $_POST[ 'threewl_php_page_title' ] );
-	$slug  = stripslashes( (string) $_POST[ 'threewl_php_page_slug' ] );
-	$threewlid = stripslashes( (string) $_POST['threewl_php_page_threewlid' ] );
+	$title = trim(stripslashes( (string) $_POST[ 'threewl_php_page_title' ] ));
+	$slug  = trim(stripslashes( (string) $_POST[ 'threewl_php_page_slug' ] ));
+	$threewlid = trim(stripslashes( (string) $_POST['threewl_php_page_threewlid' ] ));
 
 	update_option( 'threewl_php_page_title', $title );
 	update_option( 'threewl_php_page_threewlid', $threewlid );
@@ -101,9 +101,9 @@ function threewl_php_page_options_page(){
 
         echo '<div id="message" class="updated fade"><p><strong>';
 
-	update_option( 'threewl_php_page_threewlid', stripslashes( (string) $_POST['threewl_php_page_threewlid' ] ));
-	update_option( 'threewl_php_page_title', stripslashes( (string) $_POST['threewl_php_page_title' ] ));
-	update_option( 'threewl_php_page_slug', stripslashes( (string) $_POST['threewl_php_page_slug' ] ));
+	update_option( 'threewl_php_page_threewlid', trim( stripslashes( (string) $_POST['threewl_php_page_threewlid' ] )));
+	update_option( 'threewl_php_page_title', trim( stripslashes( (string) $_POST['threewl_php_page_title' ] )));
+	update_option( 'threewl_php_page_slug', trim( stripslashes( (string) $_POST['threewl_php_page_slug' ] )));
 	update_option( 'threewl_php_page_pp_help', (bool) $_POST['threewl_php_page_pp_help'] );
 	update_option( 'threewl_php_page_credit', (bool) $_POST['threewl_php_page_credit'] );
 
