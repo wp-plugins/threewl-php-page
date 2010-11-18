@@ -3,7 +3,7 @@ Contributors: videomike
 Donate link: http://www.seo-traffic-guide.de/3wl-php-page-plugin/
 Tags: search engine optimization, search engine, SEO, link building, automatic link building, 3waylinks.net, SEO plugin
 Requires at least: 2.6
-Tested up to: 2.8.4
+Tested up to: 3.0.1
 Stable tag: trunk
 
 This plugin helps you integrate your wordpress site in the [3waylinks.net](http://www.seo-traffic-guide.de/recommends/3waylinks "3waylinks.net") backlink buidling system
@@ -26,9 +26,9 @@ This is how it works in short words...
 After enabling this plugin, go to the plugin options page and create a static page 
 that can display the 3WL links. You can use the "Create Page" button on the plugin
 options page to do it for you.
-If you want to add the code to an existing page, embed this comment:
+If you want to add the code to an existing page, add this shortcode:
 
-  <!-- threewl_php_page -->
+  [threewlphppage]
   
 When the page is displayed, the 3WL PHP code is generated and
 your 3WL Links are displayed in place of the comment.
