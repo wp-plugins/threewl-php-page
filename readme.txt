@@ -6,7 +6,7 @@ Requires at least: 2.6
 Tested up to: 3.0.1
 Stable tag: trunk
 
-This plugin helps you integrate your wordpress site in the [3waylinks.net](http://www.seo-traffic-guide.de/recommends/3waylinks "3waylinks.net") backlink building system
+This plugin helps you integrate your wordpress site in the 3waylinks backlink building system
 
 == Description ==
 
