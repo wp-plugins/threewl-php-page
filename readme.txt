@@ -3,7 +3,7 @@ Contributors: videomike
 Donate link: http://www.seo-traffic-guide.de/3wl-php-page-plugin/
 Tags: search engine optimization, search engine, SEO, link building, automatic link building, 3waylinks.net, SEO plugin
 Requires at least: 2.6
-Tested up to: 3.0.1
+Tested up to: 3.4.1
 Stable tag: trunk
 
 This plugin helps you integrate your wordpress site in the 3waylinks backlink building system

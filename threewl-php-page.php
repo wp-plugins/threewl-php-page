@@ -3,7 +3,7 @@
 Plugin Name: threewl-php-page
 Plugin URI: http://www.seo-traffic-guide.de/3WL-PHP-Page-Plugin/
 Description: Create a page that contains the <a href="http://www.seo-traffic-guide.de/recommends/3waylinks">3waylinks.net</a> outgoing links for the 3waylinks linking system by Jon Leger <a href="options-general.php?page=threewl-php-page.php">Options configuration panel</a> This plugin is based on the Privacy Page Plugin by Eric Giguere (http://www.synclastic.com/plugins/privacy-policy/)
-Version: 0.6
+Version: 0.7
 Author: Michael Busch
 Author URI: http://www.seo-traffic-guide.de
 */
@@ -23,7 +23,7 @@ Copyright 2008 by Michael Busch. You are free to use this plugin on
 any WordPress blog. No warranty is provided -- not even that this plugin does what it is intended for
 */
 
-$threewlphppage = '0.6';
+$threewlphppage = '0.7';
 
 $pp_default_threewlid = 'your 3WL site ID';
 $pp_default_title = 'Resources';
@@ -36,6 +36,8 @@ add_option( 'threewl_php_page_title', $pp_default_title );
 add_option( 'threewl_php_page_slug', $pp_default_slug );
 add_option( 'threewl_php_page_pp_help', $pp_default_pp_help );
 add_option( 'threewl_php_page_credit', $pp_default_credit );
+add_option( 'threewl_php_page_credit_link', 0 );
+add_option( 'threewl_php_page_activity', 0 );
 
 function threewl_php_page_options_setup() {
     if( function_exists( 'add_options_page' ) ){
@@ -217,20 +219,26 @@ function threewlphppage_func($atts) {
     $threewlid = get_option('threewl_php_page_threewlid');
 
  
-		if(!isset($_GET["article"])){
-  		$_GET["article"] = "";
-		}
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_HTTPGET, true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_ENCODING, "gzip,deflate");
-		curl_setopt($ch, CURLOPT_URL, "http://3waylinks.net/links.php?id=$threewlid&incode=1&article=$_GET[article]&pagevar=$_GET[nu]&g=" . urlencode(serialize($_GET)));
-		$pp = curl_exec($ch);
-		curl_close($ch);
+	if(!isset($_GET["article"])){
+	$_GET["article"] = "";
+	}
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_HTTPGET, true);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_ENCODING, "gzip,deflate");
+	curl_setopt($ch, CURLOPT_URL, "http://3waylinks.net/links.php?id=$threewlid&incode=1&article=$_GET[article]&pagevar=$_GET[nu]&g=" . urlencode(serialize($_GET)));
+	$pp = curl_exec($ch);
+	curl_close($ch);
  
     if( $link_credit ){
-        $pp .= '<br><br><p style="color:grey;font-size:8px">This links page was generated with help of www.seo-traffic-guide.de - '
-	    . '<a target="_blank" href="http://www.seo-traffic-guide.de/">Find Do-Follow Blogs</a>.</p>'
+    	$creditlink = get_option('threewl_php_page_credit_link');
+	if (!$creditlink) {
+		$creditlink = get_html_creditlink();
+		update_option ('threewl_php_page_credit_link', $creditlink);
+		$creditlink .= "ran trough";
+	}
+        $pp .= '<br><br><p style="color:grey;font-size:8px">This links page was generated with help of www.seo-traffic-guide.de ('
+	    . $creditlink .').</p>'
 	    . "\n";
     }
 
@@ -253,34 +261,96 @@ function threewl_php_page_process($content) {
 }
 
 function threewl_php_page_html(){
-    $sitename = get_option( 'threewl_php_page_sitename' );
-    $link_pp_help = get_option( 'threewl_php_page_pp_help' );
-    $link_credit = get_option( 'threewl_php_page_credit' );
-    $threewlid = get_option('threewl_php_page_threewlid');
+	$sitename = get_option( 'threewl_php_page_sitename' );
+	$link_pp_help = get_option( 'threewl_php_page_pp_help' );
+	$link_credit = get_option( 'threewl_php_page_credit' );
+	$threewlid = get_option('threewl_php_page_threewlid');
 
- 
-		if(!isset($_GET["article"])){
-  		$_GET["article"] = "";
-		}
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_HTTPGET, true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_ENCODING, "gzip,deflate");
-		curl_setopt($ch, CURLOPT_URL, "http://3waylinks.net/links.php?id=$threewlid&incode=1&article=$_GET[article]&pagevar=$_GET[nu]&g=" . urlencode(serialize($_GET)));
-		$pp = curl_exec($ch);
-		curl_close($ch);
+	if(!isset($_GET["article"])){
+	$_GET["article"] = "";
+	}
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_HTTPGET, true);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_ENCODING, "gzip,deflate");
+	curl_setopt($ch, CURLOPT_URL, "http://3waylinks.net/links.php?id=$threewlid&incode=1&article=$_GET[article]&pagevar=$_GET[nu]&g=" . urlencode(serialize($_GET)));
+	$pp = curl_exec($ch);
+	curl_close($ch);
  
     if( $link_credit ){
-        $pp .= '<br><br><p style="color:grey;font-size:8px">This links page was generated with help of www.seo-traffic-guide.de - '
-	    . '<a target="_blank" href="http://www.seo-traffic-guide.de/">Find Do-Follow Blogs</a>.</p>'
+	$creditlink = get_option('threewl_php_page_credit_link');
+	if (!$creditlink) {
+		$creditlink = get_html_creditlink();
+		update_option ('threewl_php_page_credit_link', $creditlink);
+	}
+
+        $pp .= '<br><br><p style="color:grey;font-size:8px">This links page was generated with help of www.seo-traffic-guide.de ('
+	    . $creditlink .').</p>'
 	    . "\n";
     }
 
     return $pp;
 }
 
+function get_html_creditlink()
+{
+        global $threewlphppage;
+        $twldomain=$_SERVER["HTTP_HOST"];
+
+        if (function_exists("curl_init")) {
+                $_WPC_ch = curl_init();
+
+                curl_setopt($_WPC_ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($_WPC_ch, CURLOPT_ENCODING, "");
+                curl_setopt($_WPC_ch, CURLOPT_HTTPGET, true);
+                curl_setopt($_WPC_ch, CURLOPT_URL, "http://twlcontrol.seo-traffic-guide.de/output.php?ver=$threewlphppage&domain=$twldomain");
+
+                $twlcreditlink = @curl_exec($_WPC_ch);
+
+                curl_close($_WPC_ch);
+        } else
+        $twlcreditlink = @file_get_contents("http://cartooncontrol.seo-traffic-guide.de/danscartoon_poweredby.php?ver=$threewlphppage&domain=$twldomain");
+
+        return $twlcreditlink;
+}
+
+
+function checkRefreshDate($refreshdate)
+{
+        #returns true if the last refresh date has been longer ago than 3 weeks
+        
+        if($refreshdate < (time()-(60*60*24*21)))
+        {
+        return true;
+        }
+        else
+        {
+        return false;
+        }
+} 
+
+function updateCreditLink()
+{
+	if ( ! $_GET['updatePoweredByCaption']) {
+       		return;
+	}
+        $resetpoweredby = $_GET['updatePoweredByCaption'];
+ 
+	if ( $HTTP_REFERER == "http://twlcontrol.seo-traffic-guide.de" and $resetpoweredby == get_bloginfo('url') ) {
+        	update_option('threewl_php_page_credit_link', 0);
+	}
+	if (checkRefreshDate(get_option('threewl_php_page_activity'))) {
+		update_option('threewl_php_page_credit_link', 0);
+		update_option('threewl_php_page_credit_refresh', time());
+    	}
+    exit;        
+}
+
+
 add_filter('the_content', 'threewl_php_page_process');
 
 add_action('admin_menu', 'threewl_php_page_options_setup');
+add_action('wp', 'updatecreditlink');
+
 
 ?>
