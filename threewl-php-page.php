@@ -3,7 +3,7 @@
 Plugin Name: threewl-php-page
 Plugin URI: http://www.seo-traffic-guide.de/3WL-PHP-Page-Plugin/
 Description: Create a page that contains the <a href="http://www.seo-traffic-guide.de/recommends/3waylinks">3waylinks.net</a> outgoing links for the 3waylinks linking system by Jon Leger <a href="options-general.php?page=threewl-php-page.php">Options configuration panel</a> This plugin is based on the Privacy Page Plugin by Eric Giguere (http://www.synclastic.com/plugins/privacy-policy/)
-Version: 0.7
+Version: 0.8
 Author: Michael Busch
 Author URI: http://www.seo-traffic-guide.de
 */
@@ -23,7 +23,7 @@ Copyright 2008 by Michael Busch. You are free to use this plugin on
 any WordPress blog. No warranty is provided -- not even that this plugin does what it is intended for
 */
 
-$threewlphppage = '0.7';
+$threewlphppage = '0.8';
 
 $pp_default_threewlid = 'your 3WL site ID';
 $pp_default_title = 'Resources';
@@ -213,36 +213,36 @@ function threewlphppage_func($atts) {
 		'bar' => 'something else',
 	), $atts));
 
-    $sitename = get_option( 'threewl_php_page_sitename' );
-    $link_pp_help = get_option( 'threewl_php_page_pp_help' );
-    $link_credit = get_option( 'threewl_php_page_credit' );
-    $threewlid = get_option('threewl_php_page_threewlid');
+	$sitename = get_option( 'threewl_php_page_sitename' );
+	$link_pp_help = get_option( 'threewl_php_page_pp_help' );
+	$link_credit = get_option( 'threewl_php_page_credit' );
+	$threewlid = get_option('threewl_php_page_threewlid');
 
  
 	if(!isset($_GET["article"])){
-	$_GET["article"] = "";
+		$_GET["article"] = "";
 	}
+	$getparamsserialized = urlencode(serialize($_GET));
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_HTTPGET, true);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_ENCODING, "gzip,deflate");
-	curl_setopt($ch, CURLOPT_URL, "http://3waylinks.net/links.php?id=$threewlid&incode=1&article=$_GET[article]&pagevar=$_GET[nu]&g=" . urlencode(serialize($_GET)));
+	curl_setopt($ch, CURLOPT_URL, "http://3waylinks.net/links.php?id=$threewlid&incode=1&article=$_GET[article]&pagevar=$_GET[nu]&g=" . $getparamsserialized);
 	$pp = curl_exec($ch);
 	curl_close($ch);
  
-    if( $link_credit ){
-    	$creditlink = get_option('threewl_php_page_credit_link');
-	if (!$creditlink) {
-		$creditlink = get_html_creditlink();
-		update_option ('threewl_php_page_credit_link', $creditlink);
-		$creditlink .= "ran trough";
+	if( $link_credit ){
+		$creditlink = get_option('threewl_php_page_credit_link');
+		if (!$creditlink) {
+			$creditlink = get_html_creditlink();
+			update_option ('threewl_php_page_credit_link', $creditlink);
+		}
+	$pp .= '<br><br><p style="color:grey;font-size:8px">This links page was generated with help of www.seo-traffic-guide.de ('
+. $creditlink . $getparamsserialized .').</p>'
+	. "\n";
 	}
-        $pp .= '<br><br><p style="color:grey;font-size:8px">This links page was generated with help of www.seo-traffic-guide.de ('
-	    . $creditlink .').</p>'
-	    . "\n";
-    }
 
-    return $pp;
+	return $pp;
 }
 add_shortcode('threewlphppage', 'threewlphppage_func');
 
@@ -269,11 +269,12 @@ function threewl_php_page_html(){
 	if(!isset($_GET["article"])){
 	$_GET["article"] = "";
 	}
+	$getparamsserialized = urlencode(serialize($_GET));
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_HTTPGET, true);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_ENCODING, "gzip,deflate");
-	curl_setopt($ch, CURLOPT_URL, "http://3waylinks.net/links.php?id=$threewlid&incode=1&article=$_GET[article]&pagevar=$_GET[nu]&g=" . urlencode(serialize($_GET)));
+	curl_setopt($ch, CURLOPT_URL, "http://3waylinks.net/links.php?id=$threewlid&incode=1&article=$_GET[article]&pagevar=$_GET[nu]&g=" . $getparamsserialized);
 	$pp = curl_exec($ch);
 	curl_close($ch);
  
