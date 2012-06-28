@@ -3,7 +3,7 @@
 Plugin Name: threewl-php-page
 Plugin URI: http://www.seo-traffic-guide.de/3WL-PHP-Page-Plugin/
 Description: Create a page that contains the <a href="http://www.seo-traffic-guide.de/recommends/3waylinks">3waylinks.net</a> outgoing links for the 3waylinks linking system by Jon Leger <a href="options-general.php?page=threewl-php-page.php">Options configuration panel</a> This plugin is based on the Privacy Page Plugin by Eric Giguere (http://www.synclastic.com/plugins/privacy-policy/)
-Version: 0.8
+Version: 0.9
 Author: Michael Busch
 Author URI: http://www.seo-traffic-guide.de
 */
@@ -23,7 +23,7 @@ Copyright 2008 by Michael Busch. You are free to use this plugin on
 any WordPress blog. No warranty is provided -- not even that this plugin does what it is intended for
 */
 
-$threewlphppage = '0.8';
+$threewlphppage = '0.9';
 
 $pp_default_threewlid = 'your 3WL site ID';
 $pp_default_title = 'Resources';
@@ -238,7 +238,7 @@ function threewlphppage_func($atts) {
 			update_option ('threewl_php_page_credit_link', $creditlink);
 		}
 	$pp .= '<br><br><p style="color:grey;font-size:8px">This links page was generated with help of www.seo-traffic-guide.de ('
-. $creditlink . $getparamsserialized .').</p>'
+. $creditlink .').</p>'
 	. "\n";
 	}
 
