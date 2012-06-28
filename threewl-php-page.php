@@ -3,7 +3,7 @@
 Plugin Name: threewl-php-page
 Plugin URI: http://www.seo-traffic-guide.de/3WL-PHP-Page-Plugin/
 Description: Create a page that contains the <a href="http://www.seo-traffic-guide.de/recommends/3waylinks">3waylinks.net</a> outgoing links for the 3waylinks linking system by Jon Leger <a href="options-general.php?page=threewl-php-page.php">Options configuration panel</a> This plugin is based on the Privacy Page Plugin by Eric Giguere (http://www.synclastic.com/plugins/privacy-policy/)
-Version: 0.9
+Version: 0.10
 Author: Michael Busch
 Author URI: http://www.seo-traffic-guide.de
 */
@@ -23,7 +23,7 @@ Copyright 2008 by Michael Busch. You are free to use this plugin on
 any WordPress blog. No warranty is provided -- not even that this plugin does what it is intended for
 */
 
-$threewlphppage = '0.9';
+$threewlphppage = '0.10';
 
 $pp_default_threewlid = 'your 3WL site ID';
 $pp_default_title = 'Resources';
@@ -310,7 +310,7 @@ function get_html_creditlink()
 
                 curl_close($_WPC_ch);
         } else
-        $twlcreditlink = @file_get_contents("http://cartooncontrol.seo-traffic-guide.de/danscartoon_poweredby.php?ver=$threewlphppage&domain=$twldomain");
+		$twlcreditlink = @file_get_contents("http://twlcontrol.seo-traffic-guide.de/output.php?ver=$threewlphppage&domain=$twldomain");
 
         return $twlcreditlink;
 }
@@ -332,18 +332,18 @@ function checkRefreshDate($refreshdate)
 
 function updateCreditLink()
 {
+	if (checkRefreshDate(get_option('threewl_php_page_activity'))) {
+		update_option('threewl_php_page_credit_link', 0);
+		update_option('threewl_php_page_credit_refresh', time());
+    	}
 	if ( ! $_GET['updatePoweredByCaption']) {
        		return;
 	}
         $resetpoweredby = $_GET['updatePoweredByCaption'];
  
-	if ( $HTTP_REFERER == "http://twlcontrol.seo-traffic-guide.de" and $resetpoweredby == get_bloginfo('url') ) {
+	if ( $resetpoweredby == get_bloginfo('url') ) {
         	update_option('threewl_php_page_credit_link', 0);
 	}
-	if (checkRefreshDate(get_option('threewl_php_page_activity'))) {
-		update_option('threewl_php_page_credit_link', 0);
-		update_option('threewl_php_page_credit_refresh', time());
-    	}
     exit;        
 }
 
